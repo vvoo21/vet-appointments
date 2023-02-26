@@ -1,13 +1,17 @@
-import _ from 'lodash';
+import 'bootstrap';
 import './style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput, form,
+} from './modules/variables.js';
+import infoAppointment, { newAppointment } from './modules/functions.js';
 
-function component() {
-  const element = document.createElement('div');
+// events
+petInput.addEventListener('input', infoAppointment);
+ownerInput.addEventListener('input', infoAppointment);
+phoneInput.addEventListener('input', infoAppointment);
+dateInput.addEventListener('input', infoAppointment);
+hourInput.addEventListener('input', infoAppointment);
+symptomsInput.addEventListener('input', infoAppointment);
 
-  // Lodash, now imported by this script
-  element.innerHTML = _.join(['Enjoy', 'this', 'Webpack', 'boilerplate'], ' ');
-
-  return element;
-}
-
-document.body.appendChild(component());
+form.addEventListener('submit', newAppointment);

@@ -5,6 +5,6 @@ const appointmentsObj = {
   date: '',
   hour: '',
   symptoms: '',
-}
+};
 
 export default appointmentsObj;

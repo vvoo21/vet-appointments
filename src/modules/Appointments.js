@@ -8,11 +8,13 @@ class Appointments {
   }
 
   deleteAppointment(id) {
-    this.appointments = this.appointments.filter( appointment => appointment.id !== id);
+    this.appointments = this.appointments.filter((appointment) => appointment.id !== id);
   }
 
-  editAppointment(updatedAppointment) {
-    this.appointments = this.appointments.map(appointment => appointment.id === updatedAppointment.id ? updatedAppointment : appointment)
+  editAppointment(newAppointment) {
+    this.appointments = this.appointments.map(
+      (appointment) => (appointment.id === newAppointment.id ? newAppointment : appointment),
+    );
   }
 }
 

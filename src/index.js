@@ -1,7 +1,9 @@
 import 'bootstrap';
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput, form } from './modules/variables.js';
+import {
+  petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput, form,
+} from './modules/variables.js';
 import infoAppointment, { newAppointment } from './modules/functions.js';
 
 // events
@@ -13,4 +15,3 @@ hourInput.addEventListener('input', infoAppointment);
 symptomsInput.addEventListener('input', infoAppointment);
 
 form.addEventListener('submit', newAppointment);
-

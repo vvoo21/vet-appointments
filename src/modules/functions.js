@@ -1,7 +1,11 @@
 import appointmentsObj from './appointmentsObj.js';
+/* eslint-disable */
 import UI from './UI.js';
+/* eslint-disable */
 import Appointments from './Appointments.js';
-import { form, petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput } from './variables.js';
+import {
+  form, petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput,
+} from './variables.js';
 
 const ui = new UI();
 const manageAppointments = new Appointments();
@@ -21,33 +25,34 @@ export const resetObject = () => {
 };
 
 export const newAppointment = (e) => {
-  e.preventDefault();  
+  e.preventDefault();
 
-  const { pet, owner, phone, date, hour, symptoms } = appointmentsObj;
+  const {
+    pet, owner, phone, date, hour, symptoms,
+  } = appointmentsObj;
 
-  if(pet === '' || owner === '' || phone === '' || date === '' || hour === '' || symptoms === '') {
-    ui.printAlert('All fields are required', 'error');
-    return
+  if (pet === '' || owner === '' || phone === '' || date === '' || hour === '' || symptoms === '') {
+    UI.printAlert('All fields are required', 'error');
+    return;
   }
 
-  if(editing) {
-    ui.printAlert('Edited correctly');
+  if (editing) {
+    UI.printAlert('Edited correctly');
 
-    //pass the appointment object to edit
-    manageAppointments.editAppointment({...appointmentsObj});
+    // pass the appointment object to edit
+    manageAppointments.editAppointment({ ...appointmentsObj });
 
-    //Return the button text to its original state
+    // Return the button text to its original state
     form.querySelector('button[type="submit"]').textContent = 'Create Appointment';
-    
-    //Remove edit mode
-    editing = false;
 
+    // Remove edit mode
+    editing = false;
   } else {
     appointmentsObj.id = Date.now();
 
-    manageAppointments.addAppointment({...appointmentsObj});
+    manageAppointments.addAppointment({ ...appointmentsObj });
 
-    ui.printAlert('Added successfully');
+    UI.printAlert('Added successfully');
   }
 
   resetObject();
@@ -60,13 +65,15 @@ export const newAppointment = (e) => {
 export const deleteAppointment = (id) => {
   manageAppointments.deleteAppointment(id);
 
-  ui.printAlert('The appointment was deleted successfully');
+  UI.printAlert('The appointment was deleted successfully');
 
-  ui.printAppointment(manageAppointments);
+  UI.printAppointment(manageAppointments);
 };
 
 export const uploadAppointment = (appointment) => {
-  const { pet, owner, phone, date, hour, symptoms, id } = appointment;
+  const {
+    pet, owner, phone, date, hour, symptoms, id,
+  } = appointment;
 
   // fill the inputs
   petInput.value = pet;
@@ -76,7 +83,7 @@ export const uploadAppointment = (appointment) => {
   hourInput.value = hour;
   symptomsInput.value = symptoms;
 
-  //fill the object
+  // fill the object
   appointmentsObj.pet = pet;
   appointmentsObj.owner = owner;
   appointmentsObj.phone = phone;
@@ -85,11 +92,10 @@ export const uploadAppointment = (appointment) => {
   appointmentsObj.symptoms = symptoms;
   appointmentsObj.id = id;
 
-  //Change button text
+  // Change button text
   form.querySelector('button[type="submit"]').textContent = 'Save Changes';
 
   editing = true;
-
-}
+};
 
 export default infoAppointment;

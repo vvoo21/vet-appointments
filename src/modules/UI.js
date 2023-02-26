@@ -1,12 +1,14 @@
 import { containerAppointments } from './variables.js';
+/* eslint-disable */
 import { deleteAppointment, uploadAppointment } from './functions.js';
+/* eslint-disable */
 
 class UI {
-  printAlert(message, type) {
+  static printAlert(message, type) {
     const divMessage = document.createElement('div');
     divMessage.classList.add('text-center', 'alert', 'd-block', 'col-12');
 
-    if(type === 'error') {
+    if (type === 'error') {
       divMessage.classList.add('alert-danger');
     } else {
       divMessage.classList.add('alert-success');
@@ -16,17 +18,18 @@ class UI {
 
     document.querySelector('#content').insertBefore(divMessage, document.querySelector('.add-appointment'));
 
-    setTimeout( () => {
-      divMessage.remove()
+    setTimeout(() => {
+      divMessage.remove();
     }, 3000);
   }
-  
-  printAppointment({appointments}) {
 
+  printAppointment({ appointments }) {
     this.cleanHTML();
 
-    appointments.forEach(appointment => {
-      const { pet, owner, phone, date, hour, symptoms, id } = appointment;
+    appointments.forEach((appointment) => {
+      const {
+        pet, owner, phone, date, hour, symptoms, id,
+      } = appointment;
 
       const divAppointment = document.createElement('div');
       divAppointment.classList.add('appointment', 'p-3');
@@ -88,17 +91,15 @@ class UI {
       divAppointment.appendChild(btnDelete);
       divAppointment.appendChild(btnEdit);
 
-
       containerAppointments.appendChild(divAppointment);
-      
     });
   }
 
-  cleanHTML() {
-    while(containerAppointments.firstChild) {
+  static cleanHTML() {
+    while (containerAppointments.firstChild) {
       containerAppointments.removeChild(containerAppointments.firstChild);
     }
   }
 }
 
-export default UI
+export default UI;

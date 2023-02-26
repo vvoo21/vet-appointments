@@ -16,8 +16,6 @@ This project allows you to make appointments for your pet with the vet. Verify t
 
 ![Desktop Version](./src/images/desktop-version.png)
 
-![Mobile Version](./src/images/mobile-version.png)
-
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.

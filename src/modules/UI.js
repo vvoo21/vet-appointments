@@ -23,7 +23,7 @@ class UI {
     }, 3000);
   }
 
-  printAppointment({ appointments }) {
+  static printAppointment({ appointments }) {
     this.cleanHTML();
 
     appointments.forEach((appointment) => {

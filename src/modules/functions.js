@@ -7,7 +7,6 @@ import {
   form, petInput, ownerInput, phoneInput, dateInput, hourInput, symptomsInput,
 } from './variables.js';
 
-const ui = new UI();
 const manageAppointments = new Appointments();
 let editing;
 
@@ -59,7 +58,7 @@ export const newAppointment = (e) => {
 
   form.reset();
 
-  ui.printAppointment(manageAppointments);
+  UI.printAppointment(manageAppointments);
 };
 
 export const deleteAppointment = (id) => {

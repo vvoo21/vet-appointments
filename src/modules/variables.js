@@ -9,3 +9,4 @@ export const symptomsInput = document.querySelector('#symptoms');
 // UI
 export const form = document.querySelector('#new-appointment');
 export const containerAppointments = document.querySelector('#appointments');
+export const heading = document.querySelector('#manage');

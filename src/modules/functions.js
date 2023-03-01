@@ -38,16 +38,25 @@ export const newAppointment = (e) => {
   }
 
   if (editing) {
-    ui.printAlert('Edited correctly');
-
     // pass the appointment object to edit
     manageAppointments.editAppointment({ ...appointmentsObj });
 
-    // Return the button text to its original state
-    form.querySelector('button[type="submit"]').textContent = 'Create Appointment';
+    // Edit in the indexedDB
+    const transaction = DB.transaction(['appointments'], 'readwrite');
 
-    // Remove edit mode
-    editing = false;
+    const objectStore = transaction.objectStore('appointments');
+
+    objectStore.put(appointmentsObj);
+
+    transaction.oncomplete = () => {
+      ui.printAlert('Edited correctly');
+
+      // Return the button text to its original state
+      form.querySelector('button[type="submit"]').textContent = 'Create Appointment';
+
+      // Remove edit mode
+      editing = false;
+    }
   } else {
     appointmentsObj.id = Date.now();
 
@@ -62,6 +71,10 @@ export const newAppointment = (e) => {
 
     transaction.oncomplete = () => {
       ui.printAlert('Added successfully');
+    }
+
+    transaction.onerror = () => {
+      return 'There was an error'
     }
   }
 

@@ -57,6 +57,10 @@ export const newAppointment = (e) => {
       // Remove edit mode
       editing = false;
     }
+
+    transaction.onerror = () => {
+      return 'There was an error'
+    }
   } else {
     appointmentsObj.id = Date.now();
 
@@ -86,11 +90,20 @@ export const newAppointment = (e) => {
 };
 
 export const deleteAppointment = (id) => {
-  manageAppointments.deleteAppointment(id);
+  const transaction = dataBase.transaction(['appointments'], 'readwrite');
+  const objectStore = transaction.objectStore('appointments');
 
-  ui.printAlert('The appointment was deleted successfully');
+  objectStore.delete(id);
 
-  ui.printAppointment();
+  transaction.oncomplete = () => {
+    ui.printAlert('The appointment was deleted successfully');
+
+    ui.printAppointment();
+  };
+
+  transaction.onerror = () => {
+    return 'TThere was an error'
+  };
 };
 
 export const uploadAppointment = (appointment) => {

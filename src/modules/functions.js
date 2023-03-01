@@ -8,9 +8,11 @@ import {
 } from './variables.js';
 
 const manageAppointments = new Appointments();
+const ui = new UI(manageAppointments);
 let editing;
+export let dataBase;
 
-const infoAppointment = (e) => {
+export const infoAppointment = (e) => {
   appointmentsObj[e.target.name] = e.target.value;
 };
 
@@ -31,12 +33,12 @@ export const newAppointment = (e) => {
   } = appointmentsObj;
 
   if (pet === '' || owner === '' || phone === '' || date === '' || hour === '' || symptoms === '') {
-    UI.printAlert('All fields are required', 'error');
+    ui.printAlert('All fields are required', 'error');
     return;
   }
 
   if (editing) {
-    UI.printAlert('Edited correctly');
+    ui.printAlert('Edited correctly');
 
     // pass the appointment object to edit
     manageAppointments.editAppointment({ ...appointmentsObj });
@@ -51,22 +53,31 @@ export const newAppointment = (e) => {
 
     manageAppointments.addAppointment({ ...appointmentsObj });
 
-    UI.printAlert('Added successfully');
+    //Insert record into indexedDB
+    const transaction = dataBase.transaction(['appointments'], 'readwrite'); 
+
+    const objectStore = transaction.objectStore('appointments');
+
+    objectStore.add(appointmentsObj);
+
+    transaction.oncomplete = () => {
+      ui.printAlert('Added successfully');
+    }
   }
 
   resetObject();
 
   form.reset();
 
-  UI.printAppointment(manageAppointments);
+  ui.printAppointment();
 };
 
 export const deleteAppointment = (id) => {
   manageAppointments.deleteAppointment(id);
 
-  UI.printAlert('The appointment was deleted successfully');
+  ui.printAlert('The appointment was deleted successfully');
 
-  UI.printAppointment(manageAppointments);
+  ui.printAppointment();
 };
 
 export const uploadAppointment = (appointment) => {
@@ -97,4 +108,41 @@ export const uploadAppointment = (appointment) => {
   editing = true;
 };
 
-export default infoAppointment;
+export const createDB = () => {
+  //create a database version 1.0
+  const createDB = window.indexedDB.open('appointments ', 1);
+
+  //if there is a mistake
+  createDB.onerror = function() {
+    return 'There was an error when creating DB';
+  }
+
+  // If the database was created correctly
+  createDB.onsuccess = function() {
+
+    dataBase = createDB.result;
+
+    ui.printAppointment();
+  }
+
+  //schema DB
+  createDB.onupgradeneeded = function(e) {
+    const db = e.target.result;
+
+    //create object store
+    const objectStore = db.createObjectStore('appointments', {
+      keyPath: 'id',
+      autoIncrement: true
+    });
+
+    //Define all columns
+    objectStore.createIndex('pet', 'pet', {unique: false});
+    objectStore.createIndex('owner', 'owner', {unique: false});
+    objectStore.createIndex('phone', 'phone', {unique: false});
+    objectStore.createIndex('date', 'date', {unique: false});
+    objectStore.createIndex('hour', 'hour', {unique: false});
+    objectStore.createIndex('symptoms', 'symptoms', {unique: false});
+    objectStore.createIndex('id', 'id', {unique: true});
+  }
+};
+

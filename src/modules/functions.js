@@ -42,7 +42,7 @@ export const newAppointment = (e) => {
     manageAppointments.editAppointment({ ...appointmentsObj });
 
     // Edit in the indexedDB
-    const transaction = DB.transaction(['appointments'], 'readwrite');
+    const transaction = dataBase.transaction(['appointments'], 'readwrite');
 
     const objectStore = transaction.objectStore('appointments');
 
